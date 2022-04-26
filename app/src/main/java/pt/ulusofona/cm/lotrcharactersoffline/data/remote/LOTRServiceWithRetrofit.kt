@@ -6,6 +6,10 @@ import retrofit2.Retrofit
 
 class LOTRServiceWithRetrofit(val retrofit: Retrofit): LOTR() {
 
+    override fun insertCharacters(characters: List<LOTRCharacter>, onFinished: () -> Unit) {
+        throw Exception("Illegal operation")
+    }
+
     override fun getCharacters(onFinished: (List<LOTRCharacter>) -> Unit) {
 
         val service = retrofit.create(LOTRService::class.java)
