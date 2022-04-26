@@ -25,7 +25,7 @@ class LOTRDBWithRoom(private val storage: LOTROperations): LOTR() {
                 storage.insert(it)
                 Log.i("APP", "Inserted ${it.name} in DB")
             }
-            onFinished()  // TODO
+            onFinished()
         }
 
     }
@@ -42,6 +42,13 @@ class LOTRDBWithRoom(private val storage: LOTROperations): LOTR() {
                 )
             }
             onFinished(characters)
+        }
+    }
+
+    override fun clearAllCharacters(onFinished: () -> Unit) {
+        CoroutineScope(Dispatchers.IO).launch {
+            storage.deleteAll()
+            onFinished()
         }
     }
 }

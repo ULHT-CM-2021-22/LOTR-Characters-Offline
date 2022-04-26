@@ -1,17 +1,21 @@
 package pt.ulusofona.cm.lotrcharacters.ui.viewModels
 
+import android.app.Application
 import android.util.Log
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import pt.ulusofona.cm.lotrcharactersoffline.data.remote.LOTRServiceWithRetrofit
 import pt.ulusofona.cm.lotrcharactersoffline.data.remote.RetrofitBuilder
 import pt.ulusofona.cm.lotrcharactersoffline.model.LOTR
 import pt.ulusofona.cm.lotrcharactersoffline.LOTR_API_BASE_URL
+import pt.ulusofona.cm.lotrcharactersoffline.data.LOTRRepository
+import pt.ulusofona.cm.lotrcharactersoffline.data.local.LOTRDBWithRoom
+import pt.ulusofona.cm.lotrcharactersoffline.data.local.LOTRDatabase
 import pt.ulusofona.cm.lotrcharactersoffline.ui.viewModels.CharacterUI
 
-class LOTRViewModel: ViewModel() {
+class LOTRViewModel(application: Application): AndroidViewModel(application) {
 
-    private val model: LOTR =
-        LOTRServiceWithRetrofit(RetrofitBuilder.getInstance(LOTR_API_BASE_URL))
+    private val model: LOTR = LOTRRepository.getInstance()
 
     fun getCharacters(onFinished: (ArrayList<CharacterUI>) -> Unit) {
 
