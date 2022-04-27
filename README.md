@@ -1,4 +1,4 @@
-# Characters of LOTR oflline
+# Characters of LOTR offline
 
 This is an improved version of "Characters of LOTR" that handles offline mode.
 
