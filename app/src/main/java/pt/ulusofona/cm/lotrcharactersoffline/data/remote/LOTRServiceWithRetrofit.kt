@@ -5,6 +5,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import pt.ulusofona.cm.lotrcharactersoffline.model.LOTR
 import pt.ulusofona.cm.lotrcharactersoffline.model.LOTRCharacter
+import retrofit2.HttpException
 import retrofit2.Retrofit
 
 class LOTRServiceWithRetrofit(val retrofit: Retrofit): LOTR() {
@@ -21,13 +22,12 @@ class LOTRServiceWithRetrofit(val retrofit: Retrofit): LOTR() {
         CoroutineScope(Dispatchers.IO).launch {
             val service = retrofit.create(LOTRService::class.java)
 
-            val response = service.getCharacters().execute()
-            if (response.isSuccessful) {
-                val responseObj = response.body()
+            try {
+                val responseObj: GetCharactersResponse = service.getCharacters()
                 onFinished(responseObj?.docs?.map {
                     LOTRCharacter(it._id, it.birth, it.death, it.gender.orEmpty(), it.name)
-                }.orEmpty())
-            } else {
+                })
+            } catch (e: HttpException) {
                 onFinished(emptyList())  // This should be handled with a onError() callback
             }
         }
