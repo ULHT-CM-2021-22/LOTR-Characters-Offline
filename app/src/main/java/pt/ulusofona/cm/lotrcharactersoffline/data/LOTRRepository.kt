@@ -9,16 +9,22 @@ import java.lang.IllegalStateException
 
 class LOTRRepository private constructor(val local: LOTR, val remote: LOTR, val context: Context): LOTR() {
 
-    override fun getCharacters(onFinished: (List<LOTRCharacter>) -> Unit) {
+    override fun getCharacters(onFinished: (Result<List<LOTRCharacter>>) -> Unit) {
         if (ConnectivityUtil.isOnline(context)) {
             Log.i("APP", "App is online. Getting characters from the server...")
-            remote.getCharacters { characters ->
-                Log.i("APP", "Got ${characters.size} characters from the server")
-                local.clearAllCharacters {
-                    Log.i("APP", "Cleared DB")
-                    local.insertCharacters(characters) {
-                        onFinished(characters)
+            remote.getCharacters { result ->
+                if (result.isSuccess) {
+                    val characters = result.getOrNull()!!
+                    Log.i("APP", "Got ${characters.size} characters from the server")
+                    local.clearAllCharacters {
+                        Log.i("APP", "Cleared DB")
+                        local.insertCharacters(characters) {
+                            onFinished(Result.success(characters))
+                        }
                     }
+                } else {
+                    Log.w("APP", "Error getting characters from server...")
+                    onFinished(result)  // propagate the remote failure
                 }
             }
         } else {

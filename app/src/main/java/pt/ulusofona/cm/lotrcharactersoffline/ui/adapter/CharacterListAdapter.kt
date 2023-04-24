@@ -4,9 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import pt.ulusofona.cm.lotrcharactersoffline.databinding.ItemCharacterBinding
-import pt.ulusofona.cm.lotrcharactersoffline.ui.viewModels.CharacterUI
+import pt.ulusofona.cm.lotrcharactersoffline.model.LOTRCharacter
 
-class CharacterListAdapter(val characters: List<CharacterUI>) :
+class CharacterListAdapter(val characters: List<LOTRCharacter>) :
     RecyclerView.Adapter<CharacterListAdapter.CharacterViewHolder>() {
 
     class CharacterViewHolder(val binding: ItemCharacterBinding) :

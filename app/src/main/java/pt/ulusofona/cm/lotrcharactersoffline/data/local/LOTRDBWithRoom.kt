@@ -30,7 +30,7 @@ class LOTRDBWithRoom(private val storage: LOTROperations): LOTR() {
 
     }
 
-    override fun getCharacters(onFinished: (List<LOTRCharacter>) -> Unit) {
+    override fun getCharacters(onFinished: (Result<List<LOTRCharacter>>) -> Unit) {
         CoroutineScope(Dispatchers.IO).launch {
             val characters = storage.getAll().map {
                 LOTRCharacter(
@@ -41,7 +41,7 @@ class LOTRDBWithRoom(private val storage: LOTROperations): LOTR() {
                     name = it.name
                 )
             }
-            onFinished(characters)
+            onFinished(Result.success(characters))
         }
     }
 
