@@ -22,5 +22,5 @@ interface LOTROperations {
     suspend fun deleteAll()
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(operations: List<LOTRCharacterDB>)
+    suspend fun insertAll(characters: List<LOTRCharacterDB>)
 }
